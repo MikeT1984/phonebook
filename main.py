@@ -1,16 +1,3 @@
-def copy_contact_from_file(source_filename, destination_filename, line_number):
-    try:
-        with open(source_filename, 'r') as source_file:
-            lines = source_file.readlines()
-            if 0 < line_number <= len(lines):
-                contact_to_copy = lines[line_number - 1]
-                with open(destination_filename, 'a') as destination_file:
-                    destination_file.write(contact_to_copy)
-                print("Контакт успешно скопирован в другой файл.")
-            else:
-                print("Некорректный номер строки.")
-    except IOError:
-        print("Ошибка при чтении или записи файла.")
 def display_contacts(contacts):
     if not contacts:
         print("Справочник пуст.")
@@ -59,6 +46,21 @@ def add_contact(contacts):
     print("Контакт успешно добавлен.")
 
 
+def copy_contact_from_file(source_filename, destination_filename, line_number):
+    try:
+        with open(source_filename, 'r') as source_file:
+            lines = source_file.readlines()
+            if 0 < line_number <= len(lines):
+                contact_to_copy = lines[line_number - 1]
+                with open(destination_filename, 'a') as destination_file:
+                    destination_file.write(contact_to_copy)
+                print("Контакт успешно скопирован в другой файл.")
+            else:
+                print("Некорректный номер строки.")
+    except IOError:
+        print("Ошибка при чтении или записи файла.")
+
+
 def main():
     contacts = []
     while True:
@@ -67,7 +69,8 @@ def main():
         print("3. Импортировать контакты из файла")
         print("4. Найти контакт")
         print("5. Добавить контакт")
-        print("6. Выйти")
+        print("6. Скопировать контакт из файла в другой файл")
+        print("7. Выйти")
 
         choice = input("Выберите действие: ")
 
@@ -86,6 +89,11 @@ def main():
         elif choice == '5':
             add_contact(contacts)
         elif choice == '6':
+            source_filename = input("Введите имя файла, из которого нужно скопировать контакт: ")
+            destination_filename = input("Введите имя файла, в который нужно скопировать контакт: ")
+            line_number = int(input("Введите номер строки для копирования: "))
+            copy_contact_from_file(source_filename, destination_filename, line_number)
+        elif choice == '7':
             print("Выход из программы.")
             break
         else:
